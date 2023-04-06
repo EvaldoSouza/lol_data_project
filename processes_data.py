@@ -2,6 +2,7 @@
 import pandas as pd
 import datetime
 import ast
+import json
 #pegando o json. Considera que o json foi armazenado em uma pasta com o nome do summoner
 def json_loader(summoner, match_id):
     path_name = str(summoner)+ "/" + str(match_id) + ".json"
@@ -143,13 +144,26 @@ def participants_runes(infos: pd.DataFrame) -> pd.DataFrame:
     runes_info = df.loc[:, ["summonerName", "championId", "championName", "perks"]]
     raw_runes_info = pd.DataFrame(runes_info)
     #a coluna perks são todas as runas, preciso separar
-    only_runes = raw_runes_info.loc[:, ["perks"]]
-    breakin_runes_in_styles = only_runes["perks"].apply(ast.literal_eval)
-    return pd.DataFrame(breakin_runes_in_styles)
+    
+    return pd.DataFrame(runes_info)
+
+#função para separar as runas caso seja necessário
+def flatening_runes(runes_tuple: tuple) -> pd.DataFrame:
+    runes = runes_tuple[1] #primeira linha é a posição do player
+    stat_perks = pd.DataFrame(runes["statPerks"], index=range(3))
+    styles = runes["styles"]
+    #keys 'description', 'selections', 'style'
+    primary_runes = styles[0]
+    secundary_runes = styles[1]
+    primary_runes_DF = pd.DataFrame(primary_runes)
+    secundary_runes_DF = pd.DataFrame((secundary_runes))
+    runes_df = pd.concat([primary_runes_DF, secundary_runes_DF, stat_perks], ignore_index=True)
+
+    return runes_df
 
 
 infos = json_loader("SiriusPuroMalte", "BR1_2490895250")
 #did_summoner_win("SiriusPuroMalte", infos)
 runes = participants_runes(infos)
-runes.to_csv("runas_quebradas.csv")
+
 

@@ -4,17 +4,31 @@ import pandas as pd
 from utility_funcs import *
 
 # golbal variables
-api_key = 'RGAPI-5397e491-17a3-4184-9659-06c7c51825ff'
+api_key = 'CHAVE_API_RIOT' #NÃO DEIXAR NO GITHUB!!!!
 watcher = LolWatcher(api_key)
 my_region = 'br1'
 summoner = 'SiriusPuroMalte'
 
-try:
-    me = watcher.summoner.by_name(my_region, summoner)
-except ApiError as err:
-    if err.response.status_code == 404:
-        print('Summoner with that ridiculous name not found.')
+def get_summoner_by_name():
+    try:
+        me = watcher.summoner.by_name(my_region, summoner)
+        return me
+    except ApiError as err:
+        if err.response.status_code == 404:
+            print('Summoner with that ridiculous name not found.')
 
+def get_matches_ids(summoner_info, number_of_matches):
+    try:
+        my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], count= number_of_matches) #achar um jeito de pesquisar por outras infos
+        filename = summoner + '_matches.csv'
+        df = pd.DataFrame(my_matches)
+        #salvando para csv
+        df.to_csv(str(filename))
+    except ApiError as err:
+        if err.response.status_code == 404:
+            print('Summoner with this puuid not found')
+    
+    
 #pegando todas as informações da partida, e retornando cru
 def get_all_match_data(match_id):
     try:

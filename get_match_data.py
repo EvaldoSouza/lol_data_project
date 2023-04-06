@@ -9,6 +9,7 @@ watcher = LolWatcher(api_key)
 my_region = 'br1'
 summoner = 'SiriusPuroMalte'
 
+#chamar primeiro para pegar os dados do invocador
 def get_summoner_by_name():
     try:
         me = watcher.summoner.by_name(my_region, summoner)
@@ -17,7 +18,7 @@ def get_summoner_by_name():
         if err.response.status_code == 404:
             print('Summoner with that ridiculous name not found.')
 
-def get_matches_ids(summoner_info, number_of_matches):
+def get_matches_ids(summoner_info, number_of_matches): #
     try:
         my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], count= number_of_matches) #achar um jeito de pesquisar por outras infos
         filename = summoner + '_matches.csv'

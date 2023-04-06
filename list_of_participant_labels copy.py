@@ -6,12 +6,9 @@
     "championId",
     "championTransform",
     "consumablesPurchased",
-    "damageDealtToBuildings",
-    "damageDealtToObjectives",
-    "damageDealtToTurrets",
-    "damageSelfMitigated",
+    
 
-    "detectorWardsPlaced",
+    
     "doubleKills",
     "dragonKills",
     "firstBloodAssist",
@@ -20,7 +17,7 @@
     "firstTowerKill",
     "gameEndedInEarlySurrender",
     "gameEndedInSurrender",
-    "individualPosition",
+    
     "inhibitorKills",
     "inhibitorTakedowns",
     "inhibitorsLost",
@@ -42,7 +39,7 @@
     "pentaKills",
     "perks",
     
-    "profileIcon",
+
     "puuid",
     "quadraKills",
     "riotIdName",
@@ -57,9 +54,6 @@
     "teamEarlySurrendered",
     "teamId",
     "teamPosition",
-    "turretKills",
-    "turretTakedowns",
-    "turretsLost",
     "unrealKills",
 
 ]

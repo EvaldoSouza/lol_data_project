@@ -1,6 +1,7 @@
 #pegar um json de uma pasta específica e separar seus dados
 import pandas as pd
 import datetime
+import ast
 #pegando o json. Considera que o json foi armazenado em uma pasta com o nome do summoner
 def json_loader(summoner, match_id):
     path_name = str(summoner)+ "/" + str(match_id) + ".json"
@@ -69,7 +70,7 @@ def participants_champs_KDA(infos: pd.DataFrame) -> pd.DataFrame:
 def participants_lane(infos: pd.DataFrame) -> pd.DataFrame:
     all_infos = return_participants_list(infos)
     df = pd.DataFrame(all_infos)
-    lane = df.loc[:,["summonerName", "lane"]]
+    lane = df.loc[:,["summonerName", "individualPosition","lane"]]
     return pd.DataFrame(lane)
 
 #retorna os item em código
@@ -89,7 +90,7 @@ def participants_champs_items(infos: pd.DataFrame) -> pd.DataFrame:
 def vision_stats(infos: pd.DataFrame) -> pd.DataFrame:
     all_infos = return_participants_list(infos)
     df = pd.DataFrame(all_infos)
-    vision = df.loc[:,["summonerName", "visionScore", "visionWardsBoughtInGame", "wardsKilled", "wardsPlaced"]]
+    vision = df.loc[:,["summonerName", "visionScore", "visionWardsBoughtInGame","detectorWardsPlaced", "wardsKilled", "wardsPlaced"]]
     return pd.DataFrame(vision)
 
 def combat_stats(infos: pd.DataFrame()) -> pd.DataFrame:
@@ -103,6 +104,7 @@ def combat_stats(infos: pd.DataFrame()) -> pd.DataFrame:
                     "totalDamageDealtToChampions",
                     "totalDamageShieldedOnTeammates",
                     "totalDamageTaken",
+                    "damageSelfMitigated",
                     "physicalDamageDealt",
                     "physicalDamageDealtToChampions",
                     "physicalDamageTaken",
@@ -120,7 +122,13 @@ def combat_stats(infos: pd.DataFrame()) -> pd.DataFrame:
                     "trueDamageTaken"]]
     return pd.DataFrame(combat_df)
 
-import pandas as pd
+def objectives_damage(infos: pd.DataFrame()) -> pd.DataFrame:
+    all_infos = return_participants_list(infos)
+    df = pd.DataFrame(all_infos)
+    damage_cols = ["summonerName", "damageDealtToBuildings", "damageDealtToObjectives", "damageDealtToTurrets", "turretKills",
+    "turretTakedowns","turretsLost",]
+    damage_df = df.loc[:, damage_cols]
+    return pd.DataFrame(damage_df)
 
 def participants_gold(infos: pd.DataFrame) -> pd.DataFrame:
     all_infos = return_participants_list(infos)
@@ -129,8 +137,19 @@ def participants_gold(infos: pd.DataFrame) -> pd.DataFrame:
                     "championName", "goldEarned", "goldSpent"]]
     return pd.DataFrame(gold_info)
 
+def participants_runes(infos: pd.DataFrame) -> pd.DataFrame:
+    all_infos = return_participants_list(infos)
+    df = pd.DataFrame(all_infos)
+    runes_info = df.loc[:, ["summonerName", "championId", "championName", "perks"]]
+    raw_runes_info = pd.DataFrame(runes_info)
+    #a coluna perks são todas as runas, preciso separar
+    only_runes = raw_runes_info.loc[:, ["perks"]]
+    breakin_runes_in_styles = only_runes["perks"].apply(ast.literal_eval)
+    return pd.DataFrame(breakin_runes_in_styles)
+
 
 infos = json_loader("SiriusPuroMalte", "BR1_2490895250")
 #did_summoner_win("SiriusPuroMalte", infos)
-
+runes = participants_runes(infos)
+runes.to_csv("runas_quebradas.csv")
 

@@ -1,5 +1,6 @@
 import os
 import csv
+import json
 
 def make_folder_if_inexistent(folder_path):
     # checking if the directory demo_folder
@@ -20,3 +21,9 @@ def read_csv(filename):
         reader = csv.DictReader(csvfile)
         rows = list(reader)
     return rows
+
+def read_json(filename):
+    with open(filename) as file:
+        dados = json.load(file)
+
+    return dados

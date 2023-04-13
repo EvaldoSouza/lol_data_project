@@ -46,4 +46,50 @@ def dict_to_json(dados):
     with open("champs_e_classes.json", "w") as outfile:
         json.dump(dados, outfile)
 
-dict_to_json(champions_names_and_classe())
+#fazer o comp weigther
+
+def search_class_weight(class_name: str, table: pd.DataFrame) -> list:
+    """
+    Retorna os valores associados a uma classe de campeão específica em uma tabela.
+
+    Args:
+        class_name (str): Nome da classe a ser procurada.
+        table (pd.DataFrame): Tabela contendo as informações dos campeões.
+
+    Returns:
+        list: Lista com os valores associados à classe de campeão.
+    """
+    try:
+        row_index = table.index[table['Classes'] == class_name].tolist()[0]
+        row_values = table.iloc[row_index, 1:].tolist()
+        return row_values
+    except IndexError:
+        print(f'Classe {class_name} não encontrada na tabela.')
+
+
+def get_champion_class_from_dict(table):
+    with open("champs_e_classes.json") as file:
+        data = json.load(file)
+    """Para os campeões com duas classes, estou somando o peso de cada classe e dividindo por dois. Não sei se é a medida mais exata,
+    E talvez seja interessante criar uma função mais sofisticada para representar o real peso desses campeões para cada comp"""
+    champ_class_comps = {}
+    for champ in data.keys():
+        champ_classes = data.get(champ).split()
+        if len(champ_classes) == 1:
+            class_comp = search_class_weight(champ_classes[0], table)
+        else:
+            class_comp1 = search_class_weight(champ_classes[0], table)
+            class_comp2 = search_class_weight(champ_classes[1], table)
+            class_comp_sum = [sum(x) for x in zip(class_comp1, class_comp2)]
+            class_comp = []
+            for x in class_comp_sum:
+                x = x/2
+                class_comp.append(x)
+        champ_class_comps[champ] = [data.get(champ), class_comp]
+    
+    return champ_class_comps
+
+df = pd.read_csv(r"C:\Users\Evaldo\Documents\LoL API\pesos_classe_fav_comp - Página1.csv")
+champ_class_comp = get_champion_class_from_dict(df)
+ccc = pd.DataFrame.from_dict(champ_class_comp, orient='index')
+ccc.to_csv("champ_class_comp.csv")

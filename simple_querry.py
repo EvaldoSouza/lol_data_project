@@ -2,7 +2,7 @@ from riotwatcher import LolWatcher, ApiError
 import pandas as pd
 
 # golbal variables
-api_key = 'RGAPI-5397e491-17a3-4184-9659-06c7c51825ff'
+api_key = 'CHAVE_DA_API'
 watcher = LolWatcher(api_key)
 my_region = 'br1'
 

@@ -1,0 +1,14 @@
+Classes,Attack,Catch,Protect,Siege,Split
+Assassin,2,4,0,1,3
+Skirmisher,2,2,1,0,4
+Diver,3,4,2,0,2
+Juggernaut,1,2,3,2,4
+Vanguard,4,3,2,1,1
+Warden,2,2,4,4,3
+Catcher,2,4,2,3,1
+Enchanter,1,0,4,4,3
+Artillery,3,2,0,4,0
+Burst,4,4,1,3,1
+Battlemage,3,2,3,3,2
+Specialist,,,,,
+Marksman,3,0,4,3,1

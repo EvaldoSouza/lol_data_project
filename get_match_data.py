@@ -4,10 +4,9 @@ import pandas as pd
 from utility_funcs import *
 
 # golbal variables
-api_key = 'RGAPI-40ebad79-b317-4e66-8190-303ddc00c186' #NÃO DEIXAR NO GITHUB!!!!
+api_key = 'RGAPI-46b7fdd6-0ac8-4fc1-8988-b645ef5a4c9a' #NÃO DEIXAR NO GITHUB!!!!
 watcher = LolWatcher(api_key)
 my_region = 'br1'
-summoner = 'Lokal Enjoyer'
 
 #chamar primeiro para pegar os dados do invocador
 def get_summoner_by_name(summoner):
@@ -18,6 +17,7 @@ def get_summoner_by_name(summoner):
         if err.response.status_code == 404:
             print('Summoner with that ridiculous name not found.')
 
+#pega apenas o id do match
 def get_matches_ids(summoner_info, number_of_matches): #
     try:
         my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], count= number_of_matches) #achar um jeito de pesquisar por outras infos
@@ -26,6 +26,7 @@ def get_matches_ids(summoner_info, number_of_matches): #
         if err.response.status_code == 404:
             print('Summoner with this puuid not found')
 
+#salva os ids dos matches em um csv
 def get_matches_ids_to_csv(summoner_info, number_of_matches): #
     try:
         my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], count= number_of_matches) #achar um jeito de pesquisar por outras infos
@@ -54,7 +55,7 @@ def get_all_match_data(match_id):
 
 #armazenando todas as informações cruas de uma lista de partidas
 #primeiro, criar uma função que armazena os dados em json. Cada partida vai ser um json
-def store_match_data(match_detail):
+def store_match_data(match_detail, summoner):
     filename = str(match_detail['metadata']['matchId']) + ".json"
     df = pd.DataFrame(match_detail)
     #criando a pasta do summoner
@@ -72,8 +73,14 @@ def read_list_of_matches(list_of_matches_csv):
         ids_of_matchs.append(match["0"])
     return ids_of_matchs
 
-def get_all_data_from_all_matches(list_of_matches_csv):
+#função que recebe uma lista de ids de matchs e salva os jogos
+def get_all_data_from_match_ids(ids_of_matches, summoner):
+    for id in ids_of_matches:
+        store_match_data(get_all_match_data(id), summoner)  
+
+#função para ler um csv com os ids e salvar os jogos
+def get_all_data_from_ids_in_csv(list_of_matches_csv, summoner):
     ids = read_list_of_matches(list_of_matches_csv)
 
     for id in ids:
-        store_match_data(get_all_match_data(id))
+        store_match_data(get_all_match_data(id), summoner)

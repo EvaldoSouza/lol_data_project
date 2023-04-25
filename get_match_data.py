@@ -4,7 +4,7 @@ import pandas as pd
 from utility_funcs import *
 
 # golbal variables
-api_key = 'RGAPI-46b7fdd6-0ac8-4fc1-8988-b645ef5a4c9a' #NÃO DEIXAR NO GITHUB!!!!
+api_key = '' #NÃO DEIXAR NO GITHUB!!!!
 watcher = LolWatcher(api_key)
 my_region = 'br1'
 

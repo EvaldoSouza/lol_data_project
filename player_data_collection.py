@@ -149,15 +149,5 @@ def get_match_data_from_list_of_players(list_of_players, number_of_matchs_to_rec
 #a api da riot só aceita valores em Epoch
 def get_list_of_matchs_based_on_time(player, data_em_epoch):
     player_uuid = api.get_summoner_by_name(player)
-    api.get_matches_ids_to_csv_starting_in_date(player_uuid, 100, data_em_epoch)
-    #api.get_matches_ids_to_csv(player_uuid, 100)
+    api.get_matches_ids_to_csv_starting_in_date(player_uuid, data_em_epoch)
 
-primeiro_de_marco_2023 = 1677639600
-o_conselho = ["BruselsPuroMalte", "F1dget Spinner", "ILLEOI", "Kandriel", "Uchisori"]
-alcoolatras = ["CachaçaCorote", "CachaçaYpióca", "samarula", "Lokal Enjoyer", "gira pica de mel", "CachaçaSeleta"]
-cyber_seniors = ["sNowayBr", "Kuhaku", "KÄT CHUP", "h J", "DaviPirado"]
-#get_match_data_from_list_of_players(cyber_seniors, 50)
-# for player in alcoolatras:
-#    search_for_champs_played_in_folder_of_matches(player)
-#search_for_champs_played_in_folder_of_matches("h J")
-get_list_of_matchs_based_on_time("Lokal Enjoyer", primeiro_de_marco_2023)

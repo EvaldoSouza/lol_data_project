@@ -1,3 +1,4 @@
+#Acredito que não é mais necessário usar esse arquivo, ao menos por enquanto
 from utility_funcs import *
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -89,7 +90,9 @@ def get_champion_class_from_dict(table):
     
     return champ_class_comps
 
-df = pd.read_csv(r"C:\Users\Evaldo\Documents\LoL API\pesos_classe_fav_comp - Página1.csv")
-champ_class_comp = get_champion_class_from_dict(df)
-ccc = pd.DataFrame.from_dict(champ_class_comp, orient='index')
-ccc.to_csv("champ_class_comp.csv")
+#uso das funções
+#ler os pesos de cada classe em relação a comp
+#df = pd.read_csv(r"C:\Users\Evaldo\Documents\LoL API\pesos_classe_fav_comp - Página1.csv")
+#champ_class_comp = get_champion_class_from_dict(df)
+#ccc = pd.DataFrame.from_dict(champ_class_comp, orient='index')
+#ccc.to_csv("champ_class_comp.csv")

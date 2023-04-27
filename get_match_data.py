@@ -1,5 +1,4 @@
 from riotwatcher import LolWatcher, ApiError
-import csv
 import pandas as pd
 from utility_funcs import *
 

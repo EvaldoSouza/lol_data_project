@@ -74,6 +74,7 @@ def search_for_champs_played_in_folder_of_matches(player_name):
                         champions_played[participant["championName"]] = {"Partidas": 1, "Vitorias": 1}
                     else:
                         champions_played[participant["championName"]] = {"Partidas": 1, "Vitorias": 0}
+                
                 break
     
     #fazendo o winrate (vitorias/partidas)*100
@@ -100,7 +101,8 @@ def get_match_data_from_list_of_players(list_of_players, number_of_matchs_to_rec
 
 o_conselho = ["BruselsPuroMalte", "F1dget Spinner", "ILLEOI", "Kandriel", "Uchisori"]
 alcoolatras = ["CachaçaCorote", "CachaçaYpióca", "samarula", "Lokal Enjoyer", "gira pica de mel", "CachaçaSeleta"]
-
-get_match_data_from_list_of_players(alcoolatras, 50)
-for player in alcoolatras:
-    search_for_champs_played_in_folder_of_matches(player)
+cyber_seniors = ["sNowayBr", "Kuhaku", "KÄT CHUP", "h J", "DaviPirado"]
+#get_match_data_from_list_of_players(cyber_seniors, 50)
+#for player in cyber_seniors:
+ #   search_for_champs_played_in_folder_of_matches(player)
+search_for_champs_played_in_folder_of_matches("h J")

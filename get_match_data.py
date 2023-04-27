@@ -3,7 +3,7 @@ import pandas as pd
 from utility_funcs import *
 
 # golbal variables
-api_key = '' #NÃO DEIXAR NO GITHUB!!!!
+api_key = 'RGAPI-70643571-c744-4c9d-9239-714e826a1b0f' #NÃO DEIXAR NO GITHUB!!!!
 watcher = LolWatcher(api_key)
 my_region = 'br1'
 
@@ -17,7 +17,7 @@ def get_summoner_by_name(summoner):
             print('Summoner with that ridiculous name not found.')
 
 #pega apenas o id do match
-def get_matches_ids(summoner_info, number_of_matches): #
+def get_matches_ids(summoner_info, number_of_matches):
     try:
         my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], count= number_of_matches) #achar um jeito de pesquisar por outras infos
         return my_matches
@@ -37,7 +37,24 @@ def get_matches_ids_to_csv(summoner_info, number_of_matches): #
         if err.response.status_code == 404:
             print('Summoner with this puuid not found')
     
-    
+#uma função que cria um csv com os ids dos matches, começando de determinada data em Epoch
+def get_matches_ids_to_csv_starting_in_date(summoner_info, number_of_matches, date_in_epoch, *args):
+    #o epoch tem que ser dividido por 1000, pois apesar da api devolver valores em milisegundos, ela só aceita em segundos
+    try:
+        my_matches = watcher.match.matchlist_by_puuid(my_region, summoner_info['puuid'], start_time= date_in_epoch, end_time=args, count= number_of_matches) #achar um jeito de pesquisar por outras infos
+        filename = summoner_info['name'] + '_matches.csv'
+        df = pd.DataFrame(my_matches)
+        #salvando para csv
+        df.to_csv(str(filename))
+    except ApiError as err:
+        if err.response.status_code == 404:
+            print('Summoner with this puuid not found')
+
+    #chamar a função que pega os dados do match
+    # pegar o gameCreation e dividir por 1000
+    #Se for maior que o date_in_epoch E a lista ... Como eu resolvo o problema de que a lista acaba quando chegar perto da data?
+    # chamar essa função recursivamente, passando os mesmos valores + o gameCreation    
+
 #pegando todas as informações da partida, e retornando cru
 def get_all_match_data(match_id):
     try:
